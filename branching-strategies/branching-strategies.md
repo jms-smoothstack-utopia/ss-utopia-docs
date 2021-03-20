@@ -85,3 +85,7 @@ The following is an example of this. Jordan initiates a Pull Request for a new f
 ![Code review 3](https://utopia-documentation-media.s3.amazonaws.com/branching-strategies/example-code-review3.png)
 
 For the full conversation, go to [https://github.com/jms-smoothstack-utopia/UtopiaUserPortal/pull/10](https://github.com/jms-smoothstack-utopia/UtopiaUserPortal/pull/10).
+
+## Example Project Flow
+Below is a visualization of project flow with several branches, pull requests, and merges:
+![Project Git Flow](https://utopia-documentation-media.s3.amazonaws.com/branching-strategies/example-branching-project.png)
