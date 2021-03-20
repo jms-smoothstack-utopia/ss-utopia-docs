@@ -1,27 +1,43 @@
 from diagrams import Diagram
+from diagrams import Cluster
+from diagrams.aws.database import RDSMysqlInstance
 from diagrams.programming.framework import Spring
 from diagrams.programming.framework import Angular
+from diagrams.onprem.vcs import Github
 
-with Diagram("Utopia Airlines", show=False, direction='TB') as diag:
-    eureka = Spring("Eureka Service Discovery Server")
-    config = Spring("Spring Config Server")
-    orchestrator = Spring("Orchestrator/Gateway")
-    auth = Spring("Authentication Service")
-    customers = Spring("Customers Service")
-    tickets = Spring("Tickets/Booking Service")
-    flights = Spring("Flights/Airplanes/Airports Service")
-    user_portal = Angular("User Portal")
+direction = "LR"
 
-    for service in [config, auth, customers, tickets, flights, orchestrator]:
-        service >> eureka
+with Diagram("Utopia Airlines", direction=direction) as diag:
+    with Cluster("Private Network"):
+        eureka = Spring("Eureka")
+        config = Spring("Config")
 
-    for service in [auth, customers, tickets, flights, orchestrator]:
-        service >> config
 
-    customers >> auth
-    tickets >> flights
+        with Cluster("Authentication"):
+            auth = Spring()
+            auth - RDSMysqlInstance()
 
-    for service in [auth, customers, tickets, flights]:
-        orchestrator >> service
+        with Cluster("Customers"):
+            customers = Spring()
+            customers - RDSMysqlInstance()
+            customers >> auth
 
-    user_portal >> orchestrator
+        with Cluster("Flights/Airplanes/Airports"):
+            flights = Spring()
+            flights - RDSMysqlInstance()
+
+        with Cluster("Tickets"):
+            tickets = Spring()
+            tickets - RDSMysqlInstance()
+            tickets >> flights
+
+    with Cluster("Public Network"):
+        orchestrator = Spring("Gateway")
+        user_portal = Angular("User Portal")
+        user_portal >> orchestrator
+
+    config >> Github("Config Files")
+
+    eureka - [auth, customers, tickets, flights, config]
+    config - [auth, customers, tickets, flights]
+    orchestrator >> eureka
