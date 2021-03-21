@@ -1,0 +1,401 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "OpenAPI definition",
+    "version": "v0"
+  },
+  "servers": [
+    {
+      "url": "http://services.utopia-air.click:8082",
+      "description": "Generated server url"
+    }
+  ],
+  "paths": {
+    "/api/v0.1/tickets/{id}": {
+      "put": {
+        "tags": [
+          "tickets-controller"
+        ],
+        "operationId": "checkIn",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "object"
+                  }
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Ticket"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v0.1/tickets": {
+      "get": {
+        "tags": [
+          "tickets-controller"
+        ],
+        "operationId": "getAllTickets",
+        "responses": {
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "object"
+                  }
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Ticket"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Ticket"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "tickets-controller"
+        ],
+        "operationId": "purchaseTickets",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PurchaseTicketDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "object"
+                  }
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Ticket"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v0.1/tickets/{ticketId}": {
+      "get": {
+        "tags": [
+          "tickets-controller"
+        ],
+        "operationId": "getTicketById",
+        "parameters": [
+          {
+            "name": "ticketId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "object"
+                  }
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Ticket"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Ticket"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v0.1/tickets/upcoming/{customerId}": {
+      "get": {
+        "tags": [
+          "tickets-controller"
+        ],
+        "operationId": "getUpcomingTicketsForCustomer",
+        "parameters": [
+          {
+            "name": "customerId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "object"
+                  }
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Ticket"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Ticket"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v0.1/tickets/history/{customerId}": {
+      "get": {
+        "tags": [
+          "tickets-controller"
+        ],
+        "operationId": "getPastTicketsForCustomer",
+        "parameters": [
+          {
+            "name": "customerId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "object"
+                  }
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Ticket"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Ticket"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Ticket": {
+        "required": [
+          "flightId",
+          "flightTime",
+          "passengerName",
+          "purchaserId",
+          "seatClass",
+          "seatNumber",
+          "status"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "flightId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "flightTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "purchaserId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "passengerName": {
+            "type": "string"
+          },
+          "seatClass": {
+            "type": "string"
+          },
+          "seatNumber": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "PURCHASED",
+              "CHECKED_IN",
+              "CANCELLED",
+              "REFUNDED"
+            ]
+          }
+        }
+      },
+      "PurchaseTicketDto": {
+        "required": [
+          "flightId",
+          "purchaserId",
+          "tickets"
+        ],
+        "type": "object",
+        "properties": {
+          "purchaserId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "flightId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "tickets": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TicketItem"
+            }
+          }
+        }
+      },
+      "TicketItem": {
+        "required": [
+          "passengerName",
+          "seatClass",
+          "seatNumber"
+        ],
+        "type": "object",
+        "properties": {
+          "seatClass": {
+            "type": "string"
+          },
+          "seatNumber": {
+            "type": "string"
+          },
+          "passengerName": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}
