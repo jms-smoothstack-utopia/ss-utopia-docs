@@ -72,6 +72,31 @@ Additionally, the following plugin must be added:
       ... other plugins
 
       <plugin>
+        <groupId>pl.project13.maven</groupId>
+        <artifactId>git-commit-id-plugin</artifactId>
+        <version>4.0.0</version>
+        <executions>
+          <execution>
+            <id>get-the-git-infos</id>
+            <goals>
+              <goal>revision</goal>
+            </goals>
+            <phase>initialize</phase>
+          </execution>
+        </executions>
+        <configuration>
+          <generateGitPropertiesFile>true</generateGitPropertiesFile>
+          <generateGitPropertiesFilename>${project.build.outputDirectory}/git.properties
+          </generateGitPropertiesFilename>
+          <includeOnlyProperties>
+            <includeOnlyProperty>^git.branch$</includeOnlyProperty>
+            <includeOnlyProperty>^git.commit.id.abbrev$</includeOnlyProperty>
+          </includeOnlyProperties>
+          <commitIdGenerationMode>full</commitIdGenerationMode>
+        </configuration>
+      </plugin>
+
+      <plugin>
         <groupId>io.fabric8</groupId>
         <artifactId>docker-maven-plugin</artifactId>
         <version>0.33.0</version>
@@ -89,7 +114,7 @@ Additionally, the following plugin must be added:
                 <dockerFile>Dockerfile</dockerFile>
                 <tags>
                   <tag>latest</tag>
-                  <tag>${project.version}</tag>
+                  <tag>${git.branch}.${git.commit.id.abbrev}.${project.version}</tag>
                 </tags>
               </build>
             </image>
@@ -103,9 +128,7 @@ Additionally, the following plugin must be added:
 This plugin should be as-is with no modifications.
 
 ## Build Tags
-Build tags will be automatically set via the project version set within the `pom.xml`:
-```xml
-<version>0.0.1-SNAPSHOT</version>
-```
-An additional tag of `latest` will be used to keep the repository updated with the latest builds anytime a build/push occurs.
+Build tags are provided by the [Maven Git Commit ID Plugin](https://github.com/git-commit-id/git-commit-id-maven-plugin). As seen in the `pom.xml` snippet above, in the `fabric8` plugin, all build tags will be structured as `branch.commit.version`. As an example, on the `dev` branch with abbreviated commit ID of `a22559b` on version `1.1-SNAPSHOT`, the tag will be parsed as `dev.a22559b.1.1-SNAPSHOT`.
 
+
+An additional tag of `latest` will be used to keep the repository updated with the latest builds anytime a build/push occurs.
